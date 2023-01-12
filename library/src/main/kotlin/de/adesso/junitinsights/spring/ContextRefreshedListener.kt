@@ -4,6 +4,7 @@ import de.adesso.junitinsights.model.Event
 import de.adesso.junitinsights.model.EventLog
 import org.springframework.context.ApplicationListener
 import org.springframework.context.event.ContextRefreshedEvent
+import org.springframework.util.ObjectUtils
 
 /**
  * Listens to the Spring ContextRefreshedEvent to register starting of the context
@@ -18,6 +19,6 @@ class ContextRefreshedListener: ApplicationListener<ContextRefreshedEvent> {
      * @see EventLog
      */
     override fun onApplicationEvent(event: ContextRefreshedEvent) {
-        EventLog.log(Event("context refreshed"))
+        EventLog.log(Event("context refreshed", contextIdentityHex = ObjectUtils.getIdentityHexString(event.applicationContext)))
     }
 }

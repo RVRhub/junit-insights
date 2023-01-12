@@ -15,5 +15,6 @@ data class Event(
         var timeStamp: Date = Date(),
         var className: String = "",
         var methodName: String = "",
-        var successful: Boolean = true
+        var successful: Boolean = true,
+        var contextIdentityHex: String = ""
 )

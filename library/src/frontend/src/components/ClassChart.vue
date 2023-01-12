@@ -33,12 +33,14 @@
         },
         created: function () {
             let contextCount = this.testClass.springContextCount;
+            let contextNames = this.testClass.springContextNames;
             let springContextText;
             if (contextCount < 2)
                 springContextText = "1 Spring Context";
             else
                 springContextText = contextCount + " Spring Contexts";
 
+            springContextText = springContextText + "(" + contextNames + ")"
             this.chartEntries = [
                 // See ChartBase.vue
                 this.getChartEntry(this.testClass.spring, springContextText, this.SPRING_COLOR),

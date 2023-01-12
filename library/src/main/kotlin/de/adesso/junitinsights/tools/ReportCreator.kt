@@ -33,6 +33,7 @@ object ReportCreator : IReportCreator {
         var spring = 0L
         var afterAll = 0L
         var contextCount = 0
+        var contextNames = ""
 
         val eventsGroupedByMethods = groupEventsByMethod(events)
         val methods = eventsGroupedByMethods.map { methodEvents -> processMethodEvents(methodEvents) }
@@ -47,6 +48,10 @@ object ReportCreator : IReportCreator {
                 events[i].name == "context refreshed" -> {
                     spring += events[i].timeStamp.time - events[i - 1].timeStamp.time
                     contextCount++
+                    if (contextNames.isNotBlank()) {
+                        contextNames = contextNames.plus(", ")
+                    }
+                    contextNames = contextNames.plus(events[i].contextIdentityHex)
                 }
             }
         }
@@ -57,7 +62,7 @@ object ReportCreator : IReportCreator {
 
         val between = events.last().timeStamp.time - events.first().timeStamp.time - beforeAll - spring - afterAll - before - exec - after
 
-        return TestClass(events.last().className, events[0].timeStamp.time, methods, beforeAll, before, exec, after, afterAll, between, spring, contextCount)
+        return TestClass(events.last().className, events[0].timeStamp.time, methods, beforeAll, before, exec, after, afterAll, between, spring, contextCount, contextNames)
     }
 
     /**

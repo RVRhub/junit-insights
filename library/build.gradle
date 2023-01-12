@@ -18,15 +18,18 @@ ext{
 group = 'de.adesso'
 def junitInsightsVersion = '1.1.0' + (snapshot ? "-SNAPSHOT" : "")
 version = junitInsightsVersion
-sourceCompatibility = 1.8
+sourceCompatibility = 11
 
 // Build tasks
 
 jar {
     enabled = true
     baseName = 'junit-insights'
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
     from {
-        configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
     exclude("main.js")
 }
@@ -106,30 +109,30 @@ publishing {
     }
 }
 
-artifactory {
-    contextUrl = 'http://oss.jfrog.org'
-    publish {
-        repository {
-            repoKey = 'oss-snapshot-local'
-            username = bintrayUser
-            password = bintrayKey
-        }
-        defaults {
-            publications('mavenPublication')
-            publishArtifacts = true
-            publishPom = true
-            properties = [
-                    'build.number': buildNumber,
-                    'build.name': 'junit-insights'
-            ]
-        }
-    }
-    resolve {
-        repoKey = 'jcenter'
-    }
-    clientConfig.info.setBuildNumber(buildNumber)
-    clientConfig.info.setBuildName('junit-insights')
-}
+//artifactory {
+//    contextUrl = 'http://oss.jfrog.org'
+//    publish {
+//        repository {
+//            repoKey = 'oss-snapshot-local'
+//            username = bintrayUser
+//            password = bintrayKey
+//        }
+//        defaults {
+//            publications('mavenPublication')
+//            publishArtifacts = true
+//            publishPom = true
+//            properties = [
+//                    'build.number': buildNumber,
+//                    'build.name': 'junit-insights'
+//            ]
+//        }
+//    }
+//    resolve {
+//        repoKey = 'jcenter'
+//    }
+//    clientConfig.info.setBuildNumber(buildNumber)
+//    clientConfig.info.setBuildName('junit-insights')
+//}
 
 // npm specific tasks
 
@@ -163,17 +166,17 @@ task npmRunBuild(type: Exec) {
 // Dependency declarations
 
 dependencies {
-    compile('org.jetbrains.kotlin:kotlin-reflect')
-    compile('com.google.code.gson:gson:2.7')
+    implementation('org.jetbrains.kotlin:kotlin-reflect')
+    implementation('com.google.code.gson:gson:2.7')
 
-    compileOnly('org.junit.jupiter:junit-jupiter-api:5.1.0')
-    compileOnly('org.junit.platform:junit-platform-launcher:1.1.0')
-    compileOnly('org.springframework.boot:spring-boot-starter')
-    compileOnly('org.springframework:spring-test')
+    implementation('org.junit.jupiter:junit-jupiter-api')
+    implementation('org.junit.platform:junit-platform-launcher')
+    implementation('org.springframework.boot:spring-boot-starter')
+    implementation('org.springframework:spring-test')
 
-    testCompile('org.junit.jupiter:junit-jupiter-engine:5.1.0')
-    testCompile('org.junit.platform:junit-platform-launcher:1.1.0')
-    testCompile('org.springframework.boot:spring-boot-starter')
+    testImplementation('org.junit.jupiter:junit-jupiter-engine')
+    testImplementation('org.junit.platform:junit-platform-launcher')
+    testImplementation('org.springframework.boot:spring-boot-starter')
 
     testImplementation('com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0')
 }

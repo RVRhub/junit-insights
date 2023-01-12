@@ -32,7 +32,8 @@ var report = {
         "afterAll": 2,
         "between": 0,
         "spring": 2886,
-        "springContextCount": 1
+        "springContextCount": 1,
+        "springContextNames": "one, two"
     }, {
         "name": "HelloControllerTest",
         "firstTimestamp": 1555083345982,

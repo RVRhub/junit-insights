@@ -2,7 +2,7 @@
 
 group = 'de.adesso.example'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = 1.8
+sourceCompatibility = 11
 
 // Test tasks
 
@@ -17,11 +17,11 @@ test {
 // Dependency declarations
 
 dependencies {
-    testCompile('org.junit.jupiter:junit-jupiter-api:5.1.0')
-    testCompile('org.springframework.boot:spring-boot-starter-test')
-    compile('org.springframework.boot:spring-boot-starter-web')
-    testCompile('org.junit.jupiter:junit-jupiter-engine:5.1.0')
-    testCompile('org.junit.platform:junit-platform-launcher:1.1.0')
+    testImplementation('org.junit.jupiter:junit-jupiter-api')
+    testImplementation('org.springframework.boot:spring-boot-starter-test')
+    implementation('org.springframework.boot:spring-boot-starter-web')
+    testImplementation('org.junit.jupiter:junit-jupiter-engine')
+    testImplementation('org.junit.platform:junit-platform-launcher')
 
-    testCompile(project(':library'))
+    testImplementation(project(':library'))
 }
